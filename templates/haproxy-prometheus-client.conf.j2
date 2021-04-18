@@ -25,10 +25,10 @@ backend {{ item.1 }}-back-{{ port }}
 	mode http
 	option httpchk get /metrics
 	http-check expect rstring go_gc_duration_seconds
-{% if hostvars[item.1]['ansible_fqdn'] in mon_forward_map %}
-	server remote {{ mon_forward_map[hostvars[item.1]['ansible_fqdn']][portback] }} ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required check
+{% if hostvars[item.1]['mon_fqdn'] in mon_forward_map %}
+	server remote {{ mon_forward_map[hostvars[item.1]['mon_fqdn']][portback] }} ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required check
 {% else %}
-	server remote {{ hostvars[item.1]['ansible_fqdn'] }}:{{ portback }} ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required check
+	server remote {{ hostvars[item.1]['mon_fqdn'] }}:{{ portback }} ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required check
 {% endif %}
 {% endif %}
 {% endfor %}

@@ -1,8 +1,8 @@
-object Endpoint "{{ hostvars[item]['ansible_fqdn'] }}" {
-  host = "{{ hostvars[item]['ansible_fqdn'] }}"
+object Endpoint "{{ hostvars[item]['mon_fqdn'] }}" {
+  host = "{{ hostvars[item]['mon_fqdn'] }}"
   port = "{{ hostvars[item]['mon_icinga_listen_port'] }}"
 }
-object Zone "{{ hostvars[item]['ansible_fqdn'] }}" {
-  endpoints = [ "{{ hostvars[item]['ansible_fqdn'] }}" ]
+object Zone "{{ hostvars[item]['mon_fqdn'] }}" {
+  endpoints = [ "{{ hostvars[item]['mon_fqdn'] }}" ]
   parent = "master"
 }

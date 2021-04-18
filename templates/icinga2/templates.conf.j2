@@ -60,7 +60,7 @@ template Notification "mail-host-notification" {
             DowntimeStart, DowntimeEnd, DowntimeRemoved ]
 
   vars += {
-    notification_icingaweb2url = "https://{{ ansible_fqdn }}/icingaweb2/dashboard#!/icingaweb2"
+    notification_icingaweb2url = "https://{{ mon_fqdn }}/icingaweb2/dashboard#!/icingaweb2"
     notification_from = "Icinga 2 <{{ mon_icinga_mail_user }}@{{ mon_icinga_mail_domain }}>"
     notification_logtosyslog = true
   }
@@ -82,7 +82,7 @@ template Notification "mail-service-notification" {
             DowntimeStart, DowntimeEnd, DowntimeRemoved ]
 
   vars += {
-    notification_icingaweb2url = "https://{{ ansible_fqdn }}/icingaweb2/dashboard#!/icingaweb2"
+    notification_icingaweb2url = "https://{{ mon_fqdn }}/icingaweb2/dashboard#!/icingaweb2"
     notification_from = "Icinga 2 <{{ mon_icinga_mail_user }}@{{ mon_icinga_mail_domain }}>"
     notification_logtosyslog = true
   }

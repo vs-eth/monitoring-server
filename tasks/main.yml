@@ -82,9 +82,9 @@
 
   - name: Create client host directories
     become: true
-    file: path="/etc/icinga2/zones.d/{{ hostvars[item]['ansible_fqdn'] }}" state=directory owner=root group=nagios mode=0755
+    file: path="/etc/icinga2/zones.d/{{ hostvars[item]['mon_fqdn'] }}" state=directory owner=root group=nagios mode=0755
     with_items: "{{ groups['mon_client'] }}"
-    when: "'ansible_fqdn' in hostvars[item]"
+    when: "'mon_fqdn' in hostvars[item]"
     failed_when: False # Do not fail when we can't upload a host. That simply means that we're not gonna update it
 
   - name: Create server/system host directories
@@ -96,15 +96,15 @@
 
   - name: Upload client host details
     become: true
-    copy: src="fetch/icc/{{ hostvars[item]['ansible_fqdn'] }}.conf" dest="/etc/icinga2/zones.d/{{ hostvars[item]['ansible_fqdn'] }}/{{ hostvars[item]['ansible_fqdn'] }}.conf" owner=root group=nagios mode=0644
+    copy: src="fetch/icc/{{ hostvars[item]['mon_fqdn'] }}.conf" dest="/etc/icinga2/zones.d/{{ hostvars[item]['mon_fqdn'] }}/{{ hostvars[item]['mon_fqdn'] }}.conf" owner=root group=nagios mode=0644
     with_items: "{{ groups['mon_client'] }}"
-    when: "'ansible_fqdn' in hostvars[item]"
+    when: "'mon_fqdn' in hostvars[item]"
     notify: restart icinga
     failed_when: False # Do not fail when we can't upload a host. That simply means that we're not gonna update it
 
   - name: Upload server host details
     become: true
-    copy: src="fetch/icc/{{ hostvars[item]['ansible_fqdn'] }}.conf" dest="/etc/icinga2/zones.d/master/{{ hostvars[item]['ansible_fqdn'] }}.conf" owner=root group=nagios mode=0644
+    copy: src="fetch/icc/{{ hostvars[item]['mon_fqdn'] }}.conf" dest="/etc/icinga2/zones.d/master/{{ hostvars[item]['mon_fqdn'] }}.conf" owner=root group=nagios mode=0644
     with_items: "{{ groups['mon_server'] }}"
     when: not ansible_check_mode
 

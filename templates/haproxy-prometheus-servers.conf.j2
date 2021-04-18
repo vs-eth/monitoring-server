@@ -7,7 +7,7 @@ backend {{ item.1 }}-back-9100
 	mode http
 	option httpchk get /metrics
 	http-check expect rstring go_gc_duration_seconds
-	server remote {{ hostvars[item.1]['ansible_fqdn'] }}:9101 ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required check
+	server remote {{ hostvars[item.1]['mon_fqdn'] }}:9101 ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required check
 
 frontend {{ item.1 }}-front-9110
 	bind 127.43.1.{{1 + item.0 }}:9111
@@ -16,4 +16,4 @@ frontend {{ item.1 }}-front-9110
 
 backend {{ item.1 }}-back-9110
 	mode tcp
-	server remote {{ hostvars[item.1]['ansible_fqdn'] }}:9110 ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required
+	server remote {{ hostvars[item.1]['mon_fqdn'] }}:9110 ssl crt /etc/haproxy/pm-cl-full.pem ca-file /etc/haproxy/pm-ca.crt verify required

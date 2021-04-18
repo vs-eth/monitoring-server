@@ -102,11 +102,17 @@
     notify: restart icinga
     failed_when: False # Do not fail when we can't upload a host. That simply means that we're not gonna update it
 
-  - name: Upload server host details
+  - name: Upload server host details (modified fqdn)
     become: true
     copy: src="fetch/icc/{{ hostvars[item]['mon_fqdn'] }}.conf" dest="/etc/icinga2/zones.d/master/{{ hostvars[item]['mon_fqdn'] }}.conf" owner=root group=nagios mode=0644
     with_items: "{{ groups['mon_server'] }}"
-    when: not ansible_check_mode
+    when: not ansible_check_mode and hostvars[item]['mon_fqdn'] is defined
+
+  - name: Upload server host details
+    become: true
+    copy: src="fetch/icc/{{ hostvars[item]['ansible_fqdn'] }}.conf" dest="/etc/icinga2/zones.d/master/{{ hostvars[item]['ansible_fqdn'] }}.conf" owner=root group=nagios mode=0644
+    with_items: "{{ groups['mon_server'] }}"
+    when: not ansible_check_mode and hostvars[item]['ansible_fqdn'] is not defined
 
   - name: Create icinga global templates
     become: True

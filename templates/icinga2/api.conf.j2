@@ -14,11 +14,20 @@ object ApiUser "director" {
 }
 
 {% for host in groups['mon_server'] %}
-{% if hostvars[host]['mon_fqdn'] != mon_fqdn %}
+{% if hostvars[host]['mon_fqdn'] is defined %}
+  {% if hostvars[host]['mon_fqdn'] != mon_fqdn %}
 object ApiUser "{{ hostvars[host]['mon_fqdn'] }}" {
   client_cn = "{{ hostvars[host]['mon_fqdn'] }}"
 }
+  {% endif %}
+{% else %}
+  {% if hostvars[host]['ansible_fqdn'] != mon_fqdn %}
+object ApiUser "{{ hostvars[host]['ansible_fqdn'] }}" {
+  client_cn = "{{ hostvars[host]['ansible_fqdn'] }}"
+}
+  {% endif %}
 {% endif %}
+
 {% endfor %}
 
 {% for user in mon_extra_api_users|default([]) %}

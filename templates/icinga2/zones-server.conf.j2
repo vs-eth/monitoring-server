@@ -1,3 +1,9 @@
+{% if hostvars[hosts]['mon_fqdn'] is defined %}
 object Endpoint "{{ hostvars[item]['mon_fqdn'] }}" {
   host = "{{ hostvars[item]['mon_fqdn'] }}"
 }
+{% else %}
+object Endpoint "{{ hostvars[item]['ansible_fqdn'] }}" {
+  host = "{{ hostvars[item]['ansible_fqdn'] }}"
+}
+{% endif %}

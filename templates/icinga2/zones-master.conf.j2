@@ -9,7 +9,7 @@ object Zone "director-global" {
 object Zone "master" {
     // The "master" zone
     endpoints = [ {% for host in groups['mon_server'] %}
-                     "{{ hostvars[host]['mon_fqdn'] }}"{% if not loop.last %},{% endif %}
+                     {% if hostvars[hosts]['mon_fqdn'] is defined %}"{{ hostvars[host]['mon_fqdn'] }}"{% else %}"{{ hostvars[host]['ansible_fqdn'] }}" {% endif %}{% if not loop.last %},{% endif %}
                   {% endfor %}
                 ]
 }

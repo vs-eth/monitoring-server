@@ -1,4 +1,8 @@
+{% if hostvars[hosts]['mon_fqdn'] is defined %}
+  - job_name: '{{ hostvars[item.1]['mon_fqdn'] }}'
+{% else %}
   - job_name: '{{ hostvars[item.1]['ansible_fqdn'] }}'
+{% endif %}
     static_configs:
 {% set ipidx=(1 + item.0) %}
 {% for item2 in prmhosts[item.1] %}

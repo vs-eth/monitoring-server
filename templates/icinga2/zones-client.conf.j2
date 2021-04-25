@@ -1,3 +1,13 @@
+{% if hostvars[item]['mon_fqdn'] is defined %}
+object Endpoint "{{ hostvars[item]['mon_fqdn'] }}" {
+  host = "{{ hostvars[item]['mon_fqdn'] }}"
+  port = "{{ hostvars[item]['mon_icinga_listen_port'] }}"
+}
+object Zone "{{ hostvars[item]['mon_fqdn'] }}" {
+  endpoints = [ "{{ hostvars[item]['mon_fqdn'] }}" ]
+  parent = "master"
+}
+{% else %}
 object Endpoint "{{ hostvars[item]['ansible_fqdn'] }}" {
   host = "{{ hostvars[item]['ansible_fqdn'] }}"
   port = "{{ hostvars[item]['mon_icinga_listen_port'] }}"
@@ -6,3 +16,4 @@ object Zone "{{ hostvars[item]['ansible_fqdn'] }}" {
   endpoints = [ "{{ hostvars[item]['ansible_fqdn'] }}" ]
   parent = "master"
 }
+{% endif %}

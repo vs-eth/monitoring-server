@@ -43,6 +43,7 @@ mon_prometheus_job_relabling:
     action: drop
 
 # Things you might not need to override
+mon_fqdn: "{{ ansible_fqdn }}"
 mon_icinga_mysql_host: localhost
 mon_icinga_mysql_database: icinga2
 mon_icinga_mysql_web_database: icingaweb
